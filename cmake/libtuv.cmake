@@ -86,6 +86,19 @@ install(TARGETS ${TARGETSHAREDLIBNAME} LIBRARY
   DESTINATION "${libdir}")
 endif()
 
+# build tuv PIC (Position-Independent-Code) library
+if (DEFINED CREATE_PIC_LIB AND CREATE_PIC_LIB STREQUAL "yes")
+  set(TARGETPICLIBNAME tuv_pic)
+  add_library(${TARGETPICLIBNAME} STATIC ${LIB_TUV_SRCFILES})
+  target_include_directories(${TARGETPICLIBNAME} SYSTEM PRIVATE ${TARGET_INC})
+  target_include_directories(${TARGETPICLIBNAME} PUBLIC ${LIB_TUV_INCDIRS})
+  set_target_properties(${TARGETPICLIBNAME} PROPERTIES
+      ARCHIVE_OUTPUT_DIRECTORY "${LIB_OUT}"
+      COMPILE_FLAGS -fPIC
+      OUTPUT_NAME tuv
+      SUFFIX ".o")
+endif()
+
 if(DEFINED COPY_TARGET_LIB)
   add_custom_command(TARGET ${TARGETLIBNAME} POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${TARGETLIBNAME}>
