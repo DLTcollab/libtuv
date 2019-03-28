@@ -26,6 +26,13 @@ if(DEFINED TARGET_BOARD)
           "-mfloat-abi=hard"
           "-mfpu=neon-vfpv4"
           )
+  elseif(${TARGET_BOARD} STREQUAL "rpi3")
+    # rpi3 specific
+    set(FLAGS_COMMON
+          ${FLAGS_COMMON}
+          "-mfloat-abi=softfp"
+          "-mfpu=neon-vfpv4"
+          )
   elseif((${TARGET_BOARD} STREQUAL "de10nano") OR (${TARGET_BOARD} STREQUAL "arrowsockit"))
     # de10nano and arrowsockit specific
     set(FLAGS_COMMON
