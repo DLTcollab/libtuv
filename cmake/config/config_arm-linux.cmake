@@ -15,4 +15,9 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+find_program(COMPILER arm-linux-gnueabihf-gcc)
+if(COMPILER)
+  set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+else()
+  set(CMAKE_C_COMPILER arm-linux-gnueabi-gcc)
+endif()

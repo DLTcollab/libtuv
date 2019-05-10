@@ -23,9 +23,14 @@ if(DEFINED TARGET_BOARD)
     set(FLAGS_COMMON
           ${FLAGS_COMMON}
           "-mcpu=cortex-a7"
-          "-mfloat-abi=hard"
           "-mfpu=neon-vfpv4"
           )
+    if(${CMAKE_C_COMPILER} MATCHES ".*arm-linux-gnueabihf-gcc")
+      set(FLAGS_COMMON
+            ${FLAGS_COMMON}
+            "-mfloat-abi=hard"
+            )
+    endif()
   elseif(${TARGET_BOARD} STREQUAL "rpi3")
     # rpi3 specific
     set(FLAGS_COMMON
@@ -37,9 +42,13 @@ if(DEFINED TARGET_BOARD)
     # de10nano and arrowsockit specific
     set(FLAGS_COMMON
           ${FLAGS_COMMON}
-          "-mcpu=cortex-a9"
-          "-mfloat-abi=hard"
           )
+    if(${CMAKE_C_COMPILER} MATCHES ".*arm-linux-gnueabihf-gcc")
+      set(FLAGS_COMMON
+            ${FLAGS_COMMON}
+            "-mfloat-abi=hard"
+            )
+    endif()
   else()
     message(FATAL_ERROR "TARGET_BOARD=`${TARGET_BOARD}` is unknown to make")
   endif()
