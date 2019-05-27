@@ -60,6 +60,7 @@ static uv_once_t once = UV_ONCE_INIT;
 static uv_cond_t cond;
 static uv_mutex_t mutex;
 static unsigned int idle_threads;
+static unsigned int pass_threads = 0;
 static unsigned int nthreads;
 static uv_thread_t* threads;
 static uv_thread_t default_threads[4];
@@ -172,6 +173,8 @@ static void init_once(void) {
   val = getenv("UV_THREADPOOL_SIZE");
   if (val != NULL)
     nthreads = atoi(val);
+  if (pass_threads != 0)
+    nthreads = pass_threads;
   if (nthreads == 0)
     nthreads = 1;
   if (nthreads > MAX_THREADPOOL_SIZE)
@@ -280,6 +283,11 @@ static void uv__queue_done(struct uv__work* w, int err) {
     return;
 
   req->after_work_cb(req, err);
+}
+
+
+void uv_set_threadpool_size(unsigned int size) {
+  pass_threads = size;
 }
 
 

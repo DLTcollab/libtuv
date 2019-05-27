@@ -1001,6 +1001,8 @@ struct uv_work_s {
   UV_WORK_PRIVATE_FIELDS
 };
 
+UV_EXTERN void uv_set_threadpool_size(unsigned int size);
+
 UV_EXTERN int uv_queue_work(uv_loop_t* loop,
                             uv_work_t* req,
                             uv_work_cb work_cb,
